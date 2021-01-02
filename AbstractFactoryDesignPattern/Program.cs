@@ -21,12 +21,15 @@ namespace AbstractFactoryDesignPattern
 
             // Singleton Client
             Client client = Client.GetInstance();
-            // Factory method / Abstract factory
+            // Factory Method / Abstract Factory
             IVehicle vehicle = client.GetVehicle(wheels);
+            Console.WriteLine("What brand is your vehicle? (BMW/Toyota/Generic)");
+            string brand = Console.ReadLine();
+            vehicle = client.GetVehicle(wheels, brand);
         }
     }
 
-    class Client : IVehicleFactory
+    class Client
     {
         private static Client _instance;
         private IVehicleFactory _factory;
@@ -41,52 +44,84 @@ namespace AbstractFactoryDesignPattern
             return _instance;
         }
 
+        // Using Factory Method
+        // class Client is my factory in this case
         public IVehicle GetVehicle(int wheels)
         {
             if (wheels == 2)
-                this._factory = new BikeFactory();
+                return new Bike(wheels);
             else if (wheels == 4)
-                this._factory = new CarFactory();
+                return new Car(wheels);
             else
-                this._factory = new TruckFactory();
+                return new Truck(wheels);
+        }
+
+        // Using Abstract Factory
+        public IVehicle GetVehicle(int wheels, string brand)
+        {
+            if (brand.Equals("Toyota"))
+                this._factory = new ToyotaFactory();
+            else if (brand.Equals("BMW"))
+                this._factory = new BMWFactory();
+            else
+                this._factory = new GenericFactory();
             return this._factory.GetVehicle(wheels);
         }
     }
 
+    // Abstract Factory
     interface IVehicleFactory
     {
         IVehicle GetVehicle(int wheels);
     }
 
-    class CarFactory : IVehicleFactory
+    class ToyotaFactory : IVehicleFactory
     {
         public IVehicle GetVehicle(int wheels)
         {
-            return new Car(wheels);
+            if (wheels == 2)
+                return new Bike(wheels, "Toyota");
+            else if (wheels == 4)
+                return new Car(wheels, "Toyota");
+            else
+                return new Truck(wheels, "Toyota");
         }
     }
 
-    class BikeFactory : IVehicleFactory
+    class BMWFactory : IVehicleFactory
     {
         public IVehicle GetVehicle(int wheels)
         {
-            return new Bike(wheels);
+            if (wheels == 2)
+                return new Bike(wheels, "BMW");
+            else if (wheels == 4)
+                return new Car(wheels, "BMW");
+            else
+                return new Truck(wheels, "BMW");
         }
     }
 
-    class TruckFactory : IVehicleFactory
+    class GenericFactory : IVehicleFactory
     {
         public IVehicle GetVehicle(int wheels)
         {
-            return new Truck(wheels);
+            if (wheels == 2)
+                return new Bike(wheels, "Generic");
+            else if (wheels == 4)
+                return new Car(wheels, "Generic");
+            else
+                return new Truck(wheels, "Generic");
         }
     }
 
+    // Product
     interface IVehicle
     {
         int Wheels { get; set; }
+        string Brand { get; set; }
     }
 
+    // Concrete Product
     class Car : IVehicle
     {
         private int _wheels;
@@ -97,12 +132,28 @@ namespace AbstractFactoryDesignPattern
             set { this._wheels = value; }
         }
 
+        private string _brand;
+
+        public string Brand
+        {
+            get { return this._brand; }
+            set { this._brand = value; }
+        }
+
+
         public Car(int wheels)
         {
             this._wheels = wheels;
         }
+
+        public Car(int wheels, string brand)
+        {
+            this._wheels = wheels;
+            this._brand = brand;
+        }
     }
 
+    // Concrete Product
     class Bike : IVehicle
     {
         private int _wheels;
@@ -113,12 +164,27 @@ namespace AbstractFactoryDesignPattern
             set { this._wheels = value; }
         }
 
+        private string _brand;
+
+        public string Brand
+        {
+            get { return this._brand; }
+            set { this._brand = value; }
+        }
+
         public Bike(int wheels)
         {
             this._wheels = wheels;
         }
+
+        public Bike(int wheels, string brand)
+        {
+            this._wheels = wheels;
+            this._brand = brand;
+        }
     }
 
+    // Concrete Product
     class Truck : IVehicle
     {
         private int _wheels;
@@ -129,10 +195,23 @@ namespace AbstractFactoryDesignPattern
             set { this._wheels = value; }
         }
 
+        private string _brand;
+
+        public string Brand
+        {
+            get { return this._brand; }
+            set { this._brand = value; }
+        }
+
         public Truck(int wheels)
         {
             this._wheels = wheels;
         }
-    }
 
+        public Truck(int wheels, string brand)
+        {
+            this._wheels = wheels;
+            this._brand = brand;
+        }
+    }
 }
