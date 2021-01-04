@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractFactoryDesignPattern", "AbstractFactoryDesignPattern\AbstractFactoryDesignPattern.csproj", "{07239EF8-9967-4D94-A93C-70D3C54DF271}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesignPatterns", "AbstractFactoryDesignPattern\DesignPatterns.csproj", "{07239EF8-9967-4D94-A93C-70D3C54DF271}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
